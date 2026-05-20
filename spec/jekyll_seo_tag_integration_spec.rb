@@ -123,8 +123,7 @@ RSpec.describe Jekyll::SeoTag do
 
     it "uses the page description" do
       expect(output).to match(%r!<meta name="description" content="foo" />!)
-      expect(output).to match(%r!<meta property="og:description" content="foo" />!)
-      expect(output).to match(%r!<meta property="twitter:description" content="foo" />!)
+      expect(output).to match(%r!<meta name="twitter:description" property="og:description" content="foo" />!)
     end
   end
 
@@ -133,8 +132,7 @@ RSpec.describe Jekyll::SeoTag do
 
     it "uses the page excerpt when no page description exists" do
       expect(output).to match(%r!<meta name="description" content="foo" />!)
-      expect(output).to match(%r!<meta property="og:description" content="foo" />!)
-      expect(output).to match(%r!<meta property="twitter:description" content="foo" />!)
+      expect(output).to match(%r!<meta name="twitter:description" property="og:description" content="foo" />!)
     end
   end
 
@@ -143,8 +141,7 @@ RSpec.describe Jekyll::SeoTag do
 
     it "uses the site description when no page description nor excerpt exist" do
       expect(output).to match(%r!<meta name="description" content="foo" />!)
-      expect(output).to match(%r!<meta property="og:description" content="foo" />!)
-      expect(output).to match(%r!<meta property="twitter:description" content="foo" />!)
+      expect(output).to match(%r!<meta name="twitter:description" property="og:description" content="foo" />!)
     end
   end
 
@@ -622,6 +619,19 @@ RSpec.describe Jekyll::SeoTag do
 
     it "does not output a <title> tag" do
       expect(output).not_to match(%r!<title>!)
+    end
+  end
+
+  context "with canonical=false" do
+    let(:site) { make_site("url" => "http://example.invalid") }
+    let(:text) { "canonical=false" }
+
+    it "does not output a canonical link tag" do
+      expect(output).not_to match(%r!<link rel="canonical"!)
+    end
+
+    it "still outputs og:url meta tag" do
+      expect(output).to match(%r!<meta property="og:url"!)
     end
   end
 

@@ -12,6 +12,18 @@ If for some reason, you don't want the plugin to output `<title>` tags on each p
 ```
 <!-- {% endraw %} -->
 
+### Disabling `<link rel="canonical">` output
+
+If you're using another plugin to generate canonical URLs (such as [jekyll-polyglot](https://github.com/untra/polyglot) for multilingual sites), you can disable the canonical URL output:
+
+<!-- {% raw %} -->
+```
+{% seo canonical=false %}
+```
+<!-- {% endraw %} -->
+
+This will prevent the plugin from outputting the `<link rel="canonical">` tag, while still outputting all other SEO tags including the `<meta property="og:url">` tag.
+
 ### Author information
 
 Author information is used to propagate the `creator` field of Twitter summary cards. This should be an author-specific, not site-wide Twitter handle (the site-wide username be stored as `site.twitter.username`).
@@ -110,7 +122,7 @@ The following options can be set for any particular page. While the default opti
   * `type` - The type of things that the page represents. This must be a [Schema.org type](https://schema.org/docs/schemas.html), and will probably usually be something like [`BlogPosting`](https://schema.org/BlogPosting), [`NewsArticle`](https://schema.org/NewsArticle), [`Person`](https://schema.org/Person), [`Organization`](https://schema.org/Organization), etc.
   * `links` - An array of other URLs that represent the same thing that this page represents. For instance, Jane's bio page might include links to Jane's GitHub and Twitter profiles.
   * `date_modified` - Manually specify the `dateModified` field in the JSON-LD output to override Jekyll's own `dateModified`.
-  This field will take **first priority** for the `dateModified` JSON-LD output. This is useful when the file timestamp does not match the true time that the content was modified. A user may also install [Last Modified At](https://github.com/gjtorikian/jekyll-last-modified-at) which will offer an alternative way of providing for the `dateModified` field.
+  This field will take **first priority** for the `dateModified` JSON-LD output and the article modification time for Open Graph (`article:modified_time`). This is useful when the file timestamp does not match the true time that the content was modified. A user may also install [Last Modified At](https://github.com/gjtorikian/jekyll-last-modified-at) which will offer an alternative way of providing for the `dateModified` field.
 
 ### Customizing image output
 
@@ -189,3 +201,24 @@ seo_paginator_message: "%<current>s / %<total>s | "
 
 While the value can be any string text, we recommend using a Ruby string-template containing the variables `current` and `total`
 similar to the example above, to incorporate the current page-number and total number of paginated pages in the title.
+
+### Adding a page title category
+
+You can optionally add a page category to its title.
+This is useful for indicating to the users that some pages are logically grouped or are of a specific kind.
+
+For example page front matter including:
+
+```yml
+title: "my page"
+title_category: "category"
+```
+
+And `_config.yml` including:
+
+```yml
+title: "my site"
+```
+
+Will generate `my page | category | my site` as the page's main `<title>` tag
+and `my page | category` as all other page's title declarations like `og:title`.

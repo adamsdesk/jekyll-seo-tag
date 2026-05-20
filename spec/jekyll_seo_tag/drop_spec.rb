@@ -73,6 +73,30 @@ RSpec.describe Jekyll::SeoTag::Drop do
         end
       end
 
+      context "with a page title, page title category and site title" do
+        let(:page) { make_page("title" => "page title", "title_category" => "page title category") }
+
+        it "builds the title" do
+          expect(subject.title).to eql("page title | page title category | site title")
+        end
+      end
+
+      context "with a page title category and site title" do
+        let(:page) { make_page("title_category" => "page title category") }
+
+        it "builds the title" do
+          expect(subject.title).to eql("page title category | site title")
+        end
+      end
+
+      context "with a page title, identical page title category and site title" do
+        let(:page) { make_page("title" => "page title", "title_category" => "page title") }
+
+        it "builds the title" do
+          expect(subject.title).to eql("page title | site title")
+        end
+      end
+
       context "with a site description but no page title" do
         let(:page)  { make_page }
         let(:config) do
@@ -507,6 +531,28 @@ RSpec.describe Jekyll::SeoTag::Drop do
     context "when canonical url is not specified for a page" do
       it "uses site specific canonical url" do
         expect(subject.canonical_url).to eq("http://example.com/page.html")
+      end
+    end
+  end
+
+  context "canonical?" do
+    it "knows to include the canonical by default" do
+      expect(subject.canonical?).to be_truthy
+    end
+
+    context "with canonical=false" do
+      let(:text) { "canonical=false" }
+
+      it "knows not to include the canonical" do
+        expect(subject.canonical?).to be_falsy
+      end
+    end
+
+    context "with CANONICAL=FALSE (case insensitive)" do
+      let(:text) { "CANONICAL=FALSE" }
+
+      it "knows not to include the canonical" do
+        expect(subject.canonical?).to be_falsy
       end
     end
   end

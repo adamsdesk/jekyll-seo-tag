@@ -1,15 +1,29 @@
-## HEAD
-
-### Development Fixes
-
-  * Add Ruby 3.1 to CI matrix (#459)
-  * chore: remove git.io (#462)
+## 2.9.0 / 2026-05-08
 
 ### Minor Enhancements
 
   * Added the `twitter:description` tag (#464)
   * Support for image paths relative to the page&#39;s directory (#466)
   * Truncate the description value to 100 words (#492)
+  * Add support for title_category (#517)
+  * feat: Add canonical=false option to disable canonical URL output (#521)
+  * Add a article:modified_time property for articles (#515)
+
+### Bug Fixes
+
+  * Use attribute `name` consistently for metadata under `twitter` namespace (#437)
+
+### Documentation
+
+  * Migrate build badge to GH Actions (#499)
+
+### Development Fixes
+
+  * Add Ruby 3.1 to CI matrix (#459)
+  * chore: remove git.io (#462)
+  * Bump versions in workflows (#516)
+  * fix: Fix rubocop offenses (#518)
+
 
 ## 2.8.0 / 2022-02-04
 
